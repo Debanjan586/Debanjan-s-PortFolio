@@ -1,6 +1,6 @@
 let hero      = document.querySelector(".hero");
-let hamburger  = document.querySelector(".hamburger");
-let mobileNav  = document.querySelector("#mobile-nav");
+let hamburger = document.querySelector(".hamburger");
+let mobileNav = document.querySelector("#mobile-nav");
 let navOverlay = document.querySelector("#nav-overlay");
 
 let heroImage = document.createElement("img");
@@ -16,43 +16,52 @@ heroVideo.src         = "./resources/hero-background.mp4";
 heroVideo.muted       = true;
 heroVideo.loop        = true;
 heroVideo.playsInline = true;
-heroVideo.preload     = "auto";
+heroVideo.preload     = "metadata";
 heroVideo.load();
 
-gsap.to(heroImage, {
-  opacity: 1,
-  duration: 0.1,
-  ease: "power2.out"
-});
+window.videoCanPlay = false;
+
+heroVideo.addEventListener("canplay", function () {
+  window.videoCanPlay = true;
+
+  if (window.onVideoReady) {
+    window.onVideoReady();
+    window.onVideoReady = null;
+  }
+}, { once: true });
 
 window.revealHero = function () {
-  let canPlay = heroVideo.readyState >= 3;
-
-  if (canPlay) {
-    heroVideo.currentTime = 0;
-    heroVideo.className   = "hero-background";
-    gsap.set(heroVideo, { opacity: 0 });
-    hero.appendChild(heroVideo);
-
-    heroVideo.play().catch(function () {});
-
-    gsap.to(heroVideo, {
-      opacity: 1,
-      duration: 4,
-      ease: "cubic-bezier(.81, -0.49, 0, 1.65)",
-      onComplete: function () {
-        heroImage.remove();
-      }
-    });
-
+  if (window.videoCanPlay) {
+    playVideo();
   } else {
     gsap.to(heroImage, {
       opacity: 1,
-      duration: 0.1,
-      ease: "cubic-bezier(.81, -0.49, 0, 1.65)"
+      duration: 0.8,
+      ease: "power2.out"
     });
+
+    window.onVideoReady = function () {
+      gsap.to(heroImage, { opacity: 0, duration: 0.6, ease: "power2.in",
+        onComplete: function () {
+          heroImage.remove();
+          playVideo();
+        }
+      });
+    };
   }
 };
+
+function playVideo() {
+  heroVideo.currentTime = 0;
+  gsap.set(heroVideo, { opacity: 0 });
+  hero.appendChild(heroVideo);
+  heroVideo.play().catch(function () {});
+  gsap.to(heroVideo, {
+    opacity: 1,
+    duration: 1.2,
+    ease: "power2.out"
+  });
+}
 
 if (hamburger && mobileNav) {
 
