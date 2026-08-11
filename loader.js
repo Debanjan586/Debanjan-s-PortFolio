@@ -1,4 +1,4 @@
-const DEV_MODE = true; // change to true while developing to skip the loader
+const DEV_MODE = false; // change to true while developing to skip the loader
 
 
 document.addEventListener("DOMContentLoaded", function () {
