@@ -1,13 +1,24 @@
-let hero      = document.querySelector(".hero");
-let hamburger = document.querySelector(".hamburger");
-let mobileNav = document.querySelector("#mobile-nav");
+let hero       = document.querySelector(".hero");
+let nav        = document.querySelector("nav");
+let eyebrow    = document.querySelector(".eyebrow");
+let h1         = document.querySelector("#hero-main-content h1");
+let skills     = document.querySelector(".skills");
+let buttons    = document.querySelector("#buttons");
+let hamburger  = document.querySelector(".hamburger");
+let mobileNav  = document.querySelector("#mobile-nav");
 let navOverlay = document.querySelector("#nav-overlay");
 
-let heroImage = document.createElement("img");
+gsap.set(nav,     { opacity: 0 });
+gsap.set(eyebrow, { opacity: 0, y: 20, width: "90%" });
+gsap.set(h1,      { opacity: 0, y: 50 });
+gsap.set(skills,  { opacity: 0, y: 20, width: "90%" });
+gsap.set(buttons, { opacity: 0, y: 20, width: "90%" });
+
+let heroImage       = document.createElement("img");
 heroImage.src       = "./resources/hero-background-image.png";
 heroImage.alt       = "";
 heroImage.className = "hero-background";
-gsap.set(heroImage, { opacity: 0 });
+gsap.set(heroImage, { opacity: 1 });
 hero.appendChild(heroImage);
 
 let heroVideo         = document.createElement("video");
@@ -23,7 +34,6 @@ window.videoCanPlay = false;
 
 heroVideo.addEventListener("canplay", function () {
   window.videoCanPlay = true;
-
   if (window.onVideoReady) {
     window.onVideoReady();
     window.onVideoReady = null;
@@ -31,35 +41,71 @@ heroVideo.addEventListener("canplay", function () {
 }, { once: true });
 
 window.revealHero = function () {
-  if (window.videoCanPlay) {
-    playVideo();
-  } else {
-    gsap.to(heroImage, {
-      opacity: 1,
-      duration: 0.8,
-      ease: "power2.out"
-    });
+  let tl = gsap.timeline();
 
+  tl.to(nav, {
+    opacity: 1,
+    duration: 0.6,
+    ease: "power2.out",
+  });
+
+  tl.to(eyebrow, {
+    opacity: 1,
+    width: "75%",
+    duration: 0.5,
+    ease: "power2.out",
+  }, "-=0.1");
+
+  tl.to(h1, {
+    opacity: 1,
+    y: 0,
+    duration: 1.0,
+    ease: "power3.out",
+  }, "-=0.1");
+
+  tl.to(skills, {
+    opacity: 1,
+    width: "65%",
+    duration: 0.5,
+    ease: "power2.out",
+  }, "-=0.3");
+
+  tl.to(buttons, {
+    opacity: 1,
+    width: "75%",
+    duration: 0.5,
+    ease: "power2.out",
+  }, "-=0.3");
+
+  if (window.videoCanPlay) {
+    tl.call(function () { crossfadeToVideo(); });
+  } else {
     window.onVideoReady = function () {
-      gsap.to(heroImage, { opacity: 0, duration: 0.6, ease: "power2.in",
-        onComplete: function () {
-          heroImage.remove();
-          playVideo();
-        }
-      });
+      crossfadeToVideo();
     };
   }
 };
 
-function playVideo() {
+function crossfadeToVideo() {
   heroVideo.currentTime = 0;
   gsap.set(heroVideo, { opacity: 0 });
   hero.appendChild(heroVideo);
   heroVideo.play().catch(function () {});
   gsap.to(heroVideo, {
     opacity: 1,
-    duration: 1.2,
-    ease: "power2.out"
+    duration: 1.8,
+    ease: "power2.inOut",
+    delay: 0.1,
+    onComplete: function () {
+      gsap.to(heroImage, {
+        opacity: 0,
+        duration: 0.5,
+        ease: "power2.in",
+        onComplete: function () {
+          heroImage.remove();
+        }
+      });
+    }
   });
 }
 
@@ -82,7 +128,7 @@ if (hamburger && mobileNav) {
   }
 
   hamburger.addEventListener("click", function () {
-    var isOpen = mobileNav.classList.contains("open");
+    let isOpen = mobileNav.classList.contains("open");
     isOpen ? closeMenu() : openMenu();
   });
 
