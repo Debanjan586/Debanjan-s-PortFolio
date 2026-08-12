@@ -1,4 +1,4 @@
- const DEV_MODE = true;  //i made this because i wanted to skip the loader animation and go straight to the hero section for testing purposes.
+ const DEV_MODE = false;  //i made this because i wanted to skip the loader animation and go straight to the hero section for testing purposes.
 
 (function () {
 
