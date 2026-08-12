@@ -21,12 +21,18 @@
   --accent: #c3c9cf;
   --ui: #f0f2f4;
   --deep-blue: #0f1723;
+
   --text-primary: #d8dce0;
   --text-secondary: #a7afb8;
   --text-muted: #737c86;
+
   --nav-height: clamp(3rem, 6vw, 5rem);
+
   --transition: cubic-bezier(0.76, -0.48, 0.17, 1.44);
+
 }
+
+
 *,
 *::before,
 *::after {
@@ -54,6 +60,7 @@ main {
   overflow: hidden;
   background: var(--primary);
 }
+
 .hero-background {
   position: absolute;
   inset: 0;
@@ -77,10 +84,13 @@ main {
 }
 nav {
   position: fixed;
-  top: 6px;
+  top: 0;
   left: 0;
   width: 100%;
   height: var(--nav-height);
+  background-color:rgba(0, 0, 0, 0.608);
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -332,7 +342,12 @@ nav .logo img {
 }
 
 
-
+.heading{
+  font-family: "Science", sans-serif;
+  padding: 0.2rem;
+  text-align: center;
+  font-size: clamp(1.2rem, 2.4vw, 4rem);
+}
 
 
 

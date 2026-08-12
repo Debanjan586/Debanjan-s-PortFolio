@@ -11,16 +11,16 @@ let navOverlay = document.querySelector("#nav-overlay");
 let isWide = window.innerWidth > 470;
 
 gsap.set(nav, { opacity: 0 });
-gsap.set(h1,  { opacity: 0, y: 50 });
+gsap.set(h1,  { opacity: 1 });
 
 if (isWide) {
-  gsap.set(eyebrow, { opacity: 0, width: "90%" });
-  gsap.set(skills,  { opacity: 0, width: "90%" });
-  gsap.set(buttons, { opacity: 0, width: "90%" });
+  gsap.set(eyebrow, { opacity: 1, width: "90%" });
+  gsap.set(skills,  { opacity: 1, width: "90%" });
+  gsap.set(buttons, { opacity: 1, width: "90%" });
 } else {
-  gsap.set(eyebrow, { opacity: 0 });
-  gsap.set(skills,  { opacity: 0 });
-  gsap.set(buttons, { opacity: 0 });
+  gsap.set(eyebrow, { opacity: 1 });
+  gsap.set(skills,  { opacity: 1 });
+  gsap.set(buttons, { opacity: 1 });
 }
 
 let heroImage       = document.createElement("img");
@@ -58,10 +58,10 @@ window.revealHero = function () {
     ease: "power2.out",
   });
 
+
   if (isWide) {
 
     tl.to(eyebrow, {
-      opacity: 1,
       y: 0,
       width: "75%",
       duration: 0.5,
@@ -69,14 +69,12 @@ window.revealHero = function () {
     }, "-=0.1");
 
     tl.to(h1, {
-      opacity: 1,
       y: -38,
       duration: 1.0,
       ease: "power3.out",
     }, "-=0.1");
 
     tl.to(skills, {
-      opacity: 1,
       width: "65%",
       y: -40,
       duration: 0.5,
@@ -84,7 +82,6 @@ window.revealHero = function () {
     }, "-=0.3");
 
     tl.to(buttons, {
-      opacity: 1,
       width: "75%",
       duration: 0.5,
       ease: "power2.out",
@@ -93,21 +90,18 @@ window.revealHero = function () {
   } else {
 
     tl.to(eyebrow, {
-      opacity: 1,
       width: "90%",
       duration: 0.5,
       ease: "power2.out",
     }, "-=0.1");
 
     tl.to(h1, {
-      opacity: 1,
       y: -18,
       duration: 1.0,
       ease: "power3.out",
     }, "-=0.1");
 
     tl.to(skills, {
-      opacity: 1,
       width: "80%",
       y: 2,
       duration: 0.5,
@@ -115,7 +109,6 @@ window.revealHero = function () {
     }, "-=0.3");
 
     tl.to(buttons, {
-      opacity: 1,
       width: "90%",
       y: 0,
       duration: 0.5,
@@ -207,4 +200,29 @@ window.addEventListener("resize", function () {
   if (window.innerWidth > 470 && !isWide) {
     location.reload();
   }
+});
+
+
+
+
+// Smooth navigation with clean URL
+document.querySelectorAll('a[href^="#"]').forEach(function (link) {
+  link.addEventListener("click", function (e) {
+    const targetId = link.getAttribute("href");
+
+    if (targetId === "#") return;
+
+    const target = document.querySelector(targetId);
+
+    if (!target) return;
+
+    e.preventDefault();
+
+    target.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+
+    history.replaceState(null, "", window.location.pathname);
+  });
 });

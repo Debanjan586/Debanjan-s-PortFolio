@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Debanjan || Home</title>
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="skills-section/style.css" />
+    <link rel="stylesheet" href="about-section/about.css">
   </head>
   <body>
     <div id="loader">
@@ -18,22 +20,21 @@
     </div>
 
     <main>
-      <div class="hero">
+      <div class="hero" id="hero">
         <div class="hero-overlay"></div>
         <div class="hero-content">
           <nav>
             <div class="logo">
-              <a href="index.html">
+              <a href="#hero">
                 <img src="resources/D-Photoroom.png" alt="Logo" />
               </a>
             </div>
             <div id="nav-links">
-              <a href="#home">Home</a>
-              <a href="#skills">Skills</a>
-              <a href="#projects">Projects</a>
-              <a href="#journey">Journey</a>
-              <a href="#contact">Contact</a>
-              <a href="#about">About</a>
+<a href="#hero">Home</a>
+<a href="#skills">Skills</a>
+<a href="#about-me">About</a>
+<a href="#projects">Projects</a>
+<a href="#contact">Contact</a>
             </div>
             <button
               class="hamburger"
@@ -49,12 +50,11 @@
           <div id="nav-overlay" aria-hidden="true"></div>
 
           <div id="mobile-nav" aria-hidden="true">
-            <a href="#home">Home</a>
-            <a href="#skills">Skills</a>
-            <a href="#projects">Projects</a>
-            <a href="#journey">Journey</a>
-            <a href="#contact">Contact</a>
-            <a href="#about">About</a>
+<a href="#hero">Home</a>
+<a href="#skills">Skills</a>
+<a href="#about-me">About</a>
+<a href="#projects">Projects</a>
+<a href="#contact">Contact</a>
           </div>
 
           <div class="fake-nav" aria-hidden="true"></div>
@@ -87,14 +87,33 @@
         </div>
       </div>
 
+      <div id="skills">
+        <h2 class="heading">Tools I used to build the <br> Virtual Experiences</h2>
+        <div class="skills-overflow-div">
+          <img src="resources/html-icon.avif" loading="lazy" alt="Html-icon not found">
+          <img src="resources/css-icon.avif" loading="lazy" alt="Css-icon not found">
+          <img src="resources/tcss-icon.avif" loading="lazy" alt="TailWind-icon not found">
+          <img src="resources/js-icon.avif" loading="lazy" alt="Js-icon not found">
+          <img src="resources/ts-icon.avif" loading="lazy" alt="Ts-icon not found">
+          <img src="resources/react-icon.avif" loading="lazy" alt="React-icon not found">
+          <img src="resources/gsap-icon.avif" loading="lazy" alt="Gsap-icon not found">
+        </div>
+        <p>I believe learning never stops — I learn what I need, explore what I don't know, and build with what I discover.</p>
+      </div>
+<div id="about-me">
+  <div class="heading">Who is Debanjan ?
+  </div>
+      <p>The rest is unfolding.</p>
+</div>
 
 
-      
     </main>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src="script.js"></script>
     <script src="loader.js"></script>
+    <script src="skills-section/script.js"></script>
+    <script src="about-section/about.js"></script>
   </body>
 </html>

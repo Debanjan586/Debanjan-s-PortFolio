@@ -1,0 +1,38 @@
+@font-face {
+  font-family: "Catamaran";
+  src: url("../resources/Catamaran/static/Catamaran-Medium.ttf") format("truetype");
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Catamaran-bold";
+  src: url("../resources/Catamaran/static/Catamaran-Bold.ttf") format("truetype");
+  font-style: normal;
+}
+
+@font-face {
+  font-family: Science;
+  src: url("../resources/Science_Gothic/static/ScienceGothic-Light.ttf") format("truetype");
+}
+
+:root {
+  --primary: #0b0e12;
+  --text-muted: #737c86;
+  --text-secondary: #a7afb8;
+  --nav-height: clamp(3rem, 6vw, 5rem);
+}
+
+#about-me{
+    min-height:calc(100vh - var(--nav-height));
+    padding:clamp(1rem,5rem,7rem) 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+
+  background: linear-gradient(180deg, #151616 0%, #0f1010 20%, #090a0a 42%, #040505 68%, #000000 100%);
+}
+
+#about-me p{
+  font-family:'Catamaran',sans-serif;
+}

@@ -16,7 +16,7 @@
     return;
   }
 
-  gsap.set(hero,             { scale: 0.6, transformOrigin: "center center" });
+  gsap.set(document.querySelector(".original-main-stack"), { scale: 0.6, transformOrigin: "center center" });
   gsap.set([ll1, ll2, ll3], { opacity: 0, y: 14 });
   gsap.set([panelLeft, panelRight], { x: 0 });
 
@@ -41,7 +41,7 @@
 
   tl.to(panelLeft,  { x: "-100vw", duration: 0.9, ease: "power4.inOut" });
   tl.to(panelRight, { x: "100vw",  duration: 0.9, ease: "power4.inOut" }, "<");
-  tl.to(hero,       { scale: 1,    duration: 0.9, ease: "power3.out"   }, "<");
+  tl.to(document.querySelector(".original-main-stack"), { scale: 1, duration: 0.9, ease: "power3.out" }, "<");
 
   tl.call(function () {
     loader.remove();

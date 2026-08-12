@@ -1,0 +1,56 @@
+@font-face {
+  font-family: "Catamaran";
+  src: url("../resources/Catamaran/static/Catamaran-Medium.ttf") format("truetype");
+  font-style: normal;
+}
+@font-face {
+  font-family: "Catamaran-bold";
+  src: url("../resources/Catamaran/static/Catamaran-Bold.ttf") format("truetype");
+  font-style: normal;
+}
+@font-face {
+  font-family: Science;
+  src: url("../resources/Science_Gothic/static/ScienceGothic-Light.ttf") format("truetype");
+}
+:root {
+  --primary: #0b0e12;
+  --text-muted: #737c86;
+  --text-secondary: #a7afb8;
+  --nav-height: clamp(3rem, 6vw, 5rem);
+}
+#skills {
+  min-height: calc(85vh - var(--nav-height));
+  position: relative;
+    padding:clamp(1rem,5rem,7rem) 0;
+  overflow: hidden;
+  background: linear-gradient(0deg, #151616 0%, #0f1010 20%, #090a0a 42%, #040505 68%, #000000 100%);
+}
+.skills-overflow-div {
+  margin: clamp(1.5rem, 6vw, 5rem) 0 clamp(1rem, 9vw, 7rem) 0;
+  display: flex;
+  align-items: center;
+  overflow-x: scroll;
+  justify-content: space-evenly;
+}
+.skills-overflow-div img {
+  height: 15rem;
+  width: auto;
+}
+#skills p {
+  text-align: center;
+  font-family: "Catamaran", sans-serif;
+  font-size: larger;
+  color: var(--text-muted);
+}
+@media (max-width: 480px) {
+  #skills {
+    min-height: calc(65vh - var(--nav-height));
+  }
+  .skills-overflow-div {
+    margin: 3rem 0 4rem 0;
+  }
+  .skills-overflow-div img {
+    height: 10rem;
+    width: auto;
+  }
+}
