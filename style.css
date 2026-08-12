@@ -4,7 +4,6 @@
   font-weight: 100 900;
   font-style: normal;
 }
-
 @font-face {
   font-family: "Catamaran-bold";
   src: url("./resources/Catamaran/static/Catamaran-Bold.ttf") format("truetype");
@@ -14,7 +13,7 @@
 @font-face {
   font-family: Science;
   src: url("resources/Science_Gothic/static/ScienceGothic-Light.ttf")
-    format("truetype");
+  format("truetype");
 }
 :root {
   --primary: #0b0e12;
@@ -144,9 +143,9 @@ nav .logo img {
   background-color: var(--text-primary);
   border-radius: 2px;
   transition:
-    transform 0.35s var(--transition),
-    opacity 0.25s ease,
-    width 0.25s ease;
+  transform 0.35s var(--transition),
+  opacity 0.25s ease,
+  width 0.25s ease;
   transform-origin: center;
 }
 .hamburger[aria-expanded="true"] span:nth-child(1) {
@@ -203,8 +202,8 @@ nav .logo img {
   text-align: center;
   border-bottom: 1px solid rgba(255, 255, 255, 0.04);
   transition:
-    background-color 0.2s ease,
-    color 0.2s ease;
+  background-color 0.2s ease,
+  color 0.2s ease;
 }
 #mobile-nav a:last-child {
   border-bottom: none;
@@ -214,145 +213,132 @@ nav .logo img {
   color: #fff;
 }
 #hero-main-content {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   min-height: calc(95vh - var(--nav-height));
 }
-
 .original-main-stack {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
 }
-
 #hero-main-content h1 {
   font-family: "Science", serif;
   font-size: clamp(2rem, 14.5vw, 19rem);
   line-height: 0.9;
   background: linear-gradient(
-    90deg,
-    #595c5f68 0%,
-    #cfd1d4bd 25%,
-    #e8ebeede 50%,
-    #cfd1d4bd 75%,
-    #595c5f68 100%
+  90deg,
+  #595c5f68 0%,
+  #cfd1d4bd 25%,
+  #e8ebeede 50%,
+  #cfd1d4bd 75%,
+  #595c5f68 100%
   );
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   padding: 4rem 0 3rem 0;
 }
-
 .eyebrow {
   font-family: "Catamaran", sans-serif;
   font-size: clamp(1rem, 1.3vw, 2rem);
   color: var(--text-secondary);
   width: 90%;
 }
-
 #buttons {
   display: flex;
   align-items: start;
   gap: 1.2rem;
-
   width: 90%;
   margin-top: 1.5rem;
-
   position: relative;
   z-index: 10;
 }
-
 #buttons button {
   position: relative;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   min-width: 12.5rem;
   height: 3rem;
-
   font-family: "Science", sans-serif;
   font-size: 0.8rem;
   font-weight: 1000;
   letter-spacing: 0.04em;
-
   border: 1px solid transparent;
   border-radius: 4px;
-
   cursor: pointer;
-
   transition:
-    background-color 0.6s var(--transition),
-    color 0.6s var(--transition),
-    border-color 0.6s var(--transition),
-    transform 0.6s var(--transition);
-
+  background-color 0.6s var(--transition),
+  color 0.6s var(--transition),
+  border-color 0.6s var(--transition),
+  transform 0.6s var(--transition);
   -webkit-tap-highlight-color: transparent;
 }
-
 #buttons .btn-primary {
   color: var(--text-primary);
   background: var(--deep-blue);
   border-color: var(--ui);
 }
-
 #buttons .btn-primary:hover {
   color: var(--ui);
   background: transparent;
   border-color: var(--ui);
 }
-
-
 #buttons .btn-secondary {
   color: var(--text-primary);
   background: transparent;
   position: relative;
-
   border: none;
   cursor: pointer;
 }
-
-
-
 #buttons .btn-secondary::after {
   content: "";
-
   position: absolute;
-
   width: 70%;
   height: 2px;
-
   left: 50%;
   bottom: -2px;
-
   background-color: var(--text-muted);
-
   pointer-events: none;
-
   transform: translateX(-50%) scaleX(0);
   transform-origin: center;
-
   transition:
-    transform 0.6s var(--transition),
-    background-color 0.3s ease,
-    bottom 0.6s var(--transition);
+  transform 0.6s var(--transition),
+  background-color 0.3s ease,
+  bottom 0.6s var(--transition);
 }
-
-
 #buttons .btn-secondary:hover {
   color: var(--ui);
 }
-
 #buttons .btn-secondary:hover::after {
   background-color: var(--text-primary);
-
   transform: translateX(-50%) scaleX(1);
 }
+.section-tag{
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding:0 4rem;
+}
+
+
+
+
+
+
+
+
+
 
 
 @media (max-width: 768px) {
@@ -360,153 +346,140 @@ nav .logo img {
     gap: 0.8rem;
     margin-top: 1.25rem;
   }
-
   #buttons button {
     min-width: 8.5rem;
     height: 2.8rem;
-
     padding: 0 1.1rem;
-
     font-size: 0.75rem;
   }
-  
   .frontend-skills::before {
-  content: "";
-  background: linear-gradient(
+    content: "";
+    background: linear-gradient(
     180deg,
     #38393c 0%,
     #c6c8ca 25%,
     #e8ebee 50%,
     #c6c8ca 75%,
     #38393c 100%
-  );
-  position: absolute;
-  width: 2px;
-  height: 2.5em;
-  bottom: -0.7em;
-  left: -0.8rem;
-}
-
-.backend-skills::before {
-  content: "";
-  background: linear-gradient(
+    );
+    position: absolute;
+    width: 2px;
+    height: 2.5em;
+    bottom: -0.7em;
+    left: -0.8rem;
+  }
+  .backend-skills::before {
+    content: "";
+    background: linear-gradient(
     180deg,
     #38393c 0%,
     #c6c8ca 25%,
     #e8ebee 50%,
     #c6c8ca 75%,
     #38393c 100%
-  );
-  position: absolute;
-  width: 2px;
-  height: 2.5em;
-  bottom: -0.7em;
-  left: -0.8rem;
+    );
+    position: absolute;
+    width: 2px;
+    height: 2.5em;
+    bottom: -0.7em;
+    left: -0.8rem;
+  }
+  
+  .section-tag{
+    display:none;
+  }
+  
 }
-}
-
-
 @media (max-width: 480px) {
   #buttons {
     gap: 0.7rem;
     width: 100%;
     margin-top: 1rem;
   }
-
   #buttons button {
     min-width: 0;
     width: 50%;
     height: 2.7rem;
-
     padding: 0 0.8rem;
-
     font-size: 0.7rem;
   }
-  
   #hero-main-content h1 {
-  padding: 2.4rem 0 1.3rem 0;
-      font-size: clamp(2rem, 17vw, 19rem);
-}
+    padding: 2.4rem 0 1.3rem 0;
+    font-size: clamp(2rem, 17vw, 19rem);
+  }
   .frontend-skills::before {
-  content: "";
-  background: linear-gradient(
+    content: "";
+    background: linear-gradient(
     180deg,
     #38393c 0%,
     #c6c8ca 25%,
     #e8ebee 50%,
     #c6c8ca 75%,
     #38393c 100%
-  );
-  position: absolute;
-  width: 1px;
-  height: 2em;
-  bottom: -0.5em;
-  left: -0.8rem;
-}
-
-.backend-skills::before {
-  content: "";
-  background: linear-gradient(
+    );
+    position: absolute;
+    width: 1px;
+    height: 2em;
+    bottom: -0.5em;
+    left: -0.8rem;
+  }
+  .backend-skills::before {
+    content: "";
+    background: linear-gradient(
     180deg,
     #38393c 0%,
     #c6c8ca 25%,
     #e8ebee 50%,
     #c6c8ca 75%,
     #38393c 100%
-  );
-  position: absolute;
-  width: 2px;
-  height: 2em;
-  bottom: -0.5em;
-  left: -0.8rem;
+    );
+    position: absolute;
+    width: 2px;
+    height: 2em;
+    bottom: -0.5em;
+    left: -0.8rem;
+  }
 }
-}
-
-
-@media (max-width: 360px) {
+@media (max-width: 370px) {
   #buttons {
-    flex-direction: column;
     width: auto;
   }
-
   #buttons button {
     width: 10rem;
   }
   .frontend-skills::before {
-  content: "";
-  background: linear-gradient(
+    content: "";
+    background: linear-gradient(
     180deg,
     #38393c 0%,
     #c6c8ca 25%,
     #e8ebee 50%,
     #c6c8ca 75%,
     #38393c 100%
-  );
-  position: absolute;
-  width: 2px;
-  height: 1.5em;
-  bottom: -0.7em;
-  left: -0.8rem;
-}
-
-.backend-skills::before {
-  content: "";
-  background: linear-gradient(
+    );
+    position: absolute;
+    width: 2px;
+    height: 1.5em;
+    bottom: -0.7em;
+    left: -0.8rem;
+  }
+  .backend-skills::before {
+    content: "";
+    background: linear-gradient(
     180deg,
     #38393c 0%,
     #c6c8ca 25%,
     #e8ebee 50%,
     #c6c8ca 75%,
     #38393c 100%
-  );
-  position: absolute;
-  width: 2px;
-  height: 1.5em;
-  bottom: -0.7em;
-  left: -0.8rem;
+    );
+    position: absolute;
+    width: 2px;
+    height: 1.5em;
+    bottom: -0.7em;
+    left: -0.8rem;
+  }
 }
-}
-
 .skills {
   font-family: "Catamaran-bold", sans-serif;
   font-size: clamp(1rem, 1.3vw, 2rem);
@@ -516,7 +489,6 @@ nav .logo img {
   align-items: center;
   justify-content: space-between;
 }
-
 .skills .frontend-skills,
 .backend-skills {
   display: flex;
@@ -526,7 +498,6 @@ nav .logo img {
   position: relative;
   min-width: 0;
 }
-
 .skills h3 {
   font-size: clamp(0.6rem, 1.3vw, 2rem);
   font-weight: 400;
@@ -537,12 +508,12 @@ nav .logo img {
 .frontend-skills::before {
   content: "";
   background: linear-gradient(
-    180deg,
-    #38393c 0%,
-    #c6c8ca 25%,
-    #e8ebee 50%,
-    #c6c8ca 75%,
-    #38393c 100%
+  180deg,
+  #38393c 0%,
+  #c6c8ca 25%,
+  #e8ebee 50%,
+  #c6c8ca 75%,
+  #38393c 100%
   );
   position: absolute;
   width: 2px;
@@ -550,16 +521,15 @@ nav .logo img {
   bottom: -0.2em;
   left: -1rem;
 }
-
 .backend-skills::before {
   content: "";
   background: linear-gradient(
-    180deg,
-    #38393c 0%,
-    #c6c8ca 25%,
-    #e8ebee 50%,
-    #c6c8ca 75%,
-    #38393c 100%
+  180deg,
+  #38393c 0%,
+  #c6c8ca 25%,
+  #e8ebee 50%,
+  #c6c8ca 75%,
+  #38393c 100%
   );
   position: absolute;
   width: 2px;
@@ -567,7 +537,6 @@ nav .logo img {
   bottom: -0.2em;
   left: -1rem;
 }
-
 #loader {
   position: fixed;
   inset: 0;
@@ -623,13 +592,22 @@ nav .logo img {
     display: flex;
   }
   nav {
-    padding: 0 3.2rem;
+    padding: 0 clamp(1rem,2vw,5rem);
   }
   #hero-main-content {
     padding: 2rem 1.5rem;
   }
-  .eyebrow   { order: 1; }
-  h1         { order: 2; }
-  .skills    { order: 3; }
-  #buttons   { order: 4; margin-top: 2rem; }
+  .eyebrow   {
+    order: 1;
+  }
+  h1         {
+    order: 2;
+  }
+  .skills    {
+    order: 3;
+  }
+  #buttons   {
+    order: 4;
+    margin-top: 2rem;
+  }
 }

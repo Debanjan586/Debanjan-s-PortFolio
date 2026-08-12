@@ -8,11 +8,20 @@ let hamburger  = document.querySelector(".hamburger");
 let mobileNav  = document.querySelector("#mobile-nav");
 let navOverlay = document.querySelector("#nav-overlay");
 
-gsap.set(nav,     { opacity: 0 });
-gsap.set(eyebrow, { opacity: 0, y: 20, width: "90%" });
-gsap.set(h1,      { opacity: 0, y: 50 });
-gsap.set(skills,  { opacity: 0, y: 20, width: "90%" });
-gsap.set(buttons, { opacity: 0, y: 20, width: "90%" });
+let isWide = window.innerWidth > 470;
+
+gsap.set(nav, { opacity: 0 });
+gsap.set(h1,  { opacity: 0, y: 50 });
+
+if (isWide) {
+  gsap.set(eyebrow, { opacity: 0, width: "90%" });
+  gsap.set(skills,  { opacity: 0, width: "90%" });
+  gsap.set(buttons, { opacity: 0, width: "90%" });
+} else {
+  gsap.set(eyebrow, { opacity: 0 });
+  gsap.set(skills,  { opacity: 0 });
+  gsap.set(buttons, { opacity: 0 });
+}
 
 let heroImage       = document.createElement("img");
 heroImage.src       = "./resources/hero-background-image.png";
@@ -49,33 +58,71 @@ window.revealHero = function () {
     ease: "power2.out",
   });
 
-  tl.to(eyebrow, {
-    opacity: 1,
-    width: "75%",
-    duration: 0.5,
-    ease: "power2.out",
-  }, "-=0.1");
+  if (isWide) {
 
-  tl.to(h1, {
-    opacity: 1,
-    y: 0,
-    duration: 1.0,
-    ease: "power3.out",
-  }, "-=0.1");
+    tl.to(eyebrow, {
+      opacity: 1,
+      y: 0,
+      width: "75%",
+      duration: 0.5,
+      ease: "power2.out",
+    }, "-=0.1");
 
-  tl.to(skills, {
-    opacity: 1,
-    width: "65%",
-    duration: 0.5,
-    ease: "power2.out",
-  }, "-=0.3");
+    tl.to(h1, {
+      opacity: 1,
+      y: -38,
+      duration: 1.0,
+      ease: "power3.out",
+    }, "-=0.1");
 
-  tl.to(buttons, {
-    opacity: 1,
-    width: "75%",
-    duration: 0.5,
-    ease: "power2.out",
-  }, "-=0.3");
+    tl.to(skills, {
+      opacity: 1,
+      width: "65%",
+      y: -40,
+      duration: 0.5,
+      ease: "power2.out",
+    }, "-=0.3");
+
+    tl.to(buttons, {
+      opacity: 1,
+      width: "75%",
+      duration: 0.5,
+      ease: "power2.out",
+    }, "-=0.3");
+
+  } else {
+
+    tl.to(eyebrow, {
+      opacity: 1,
+      width: "90%",
+      duration: 0.5,
+      ease: "power2.out",
+    }, "-=0.1");
+
+    tl.to(h1, {
+      opacity: 1,
+      y: -18,
+      duration: 1.0,
+      ease: "power3.out",
+    }, "-=0.1");
+
+    tl.to(skills, {
+      opacity: 1,
+      width: "80%",
+      y: 2,
+      duration: 0.5,
+      ease: "power2.out",
+    }, "-=0.3");
+
+    tl.to(buttons, {
+      opacity: 1,
+      width: "90%",
+      y: 0,
+      duration: 0.5,
+      ease: "power2.out",
+    }, "-=0.3");
+
+  }
 
   if (window.videoCanPlay) {
     tl.call(function () { crossfadeToVideo(); });
@@ -152,3 +199,12 @@ if (hamburger && mobileNav) {
   });
 
 }
+
+window.addEventListener("resize", function () {
+  if (window.innerWidth <= 470 && isWide) {
+    location.reload();
+  }
+  if (window.innerWidth > 470 && !isWide) {
+    location.reload();
+  }
+});
