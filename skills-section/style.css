@@ -18,10 +18,21 @@
   --text-secondary: #a7afb8;
   --nav-height: clamp(3rem, 6vw, 5rem);
 }
+
+.heading {
+  color: var(--text-muted);
+  font-family: "Science", sans-serif;
+  padding: 0.2rem;
+  text-align: center;
+  font-size: clamp(1.2rem, 2.4vw, 4rem);
+}
+
+
+
 #skills {
-  min-height: calc(85vh - var(--nav-height));
+  height:100vh;
   position: relative;
-    padding:clamp(1rem,5rem,7rem) 0;
+    /* padding:clamp(1rem,5rem,7rem) 0; */
   overflow: hidden;
   background: linear-gradient(0deg, #151616 0%, #0f1010 20%, #090a0a 42%, #040505 68%, #000000 100%);
 }
