@@ -662,6 +662,11 @@ body {
     bottom:clamp(-4.3rem,-4rem,0rem);
   }
   
+  .dev-photo img {
+  z-index: 0;
+  height: clamp(90vh,50vw,51vw);
+}
+  
   .dev-photo::after {
     position: absolute;
     content: '';
