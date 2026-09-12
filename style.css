@@ -356,7 +356,7 @@ body.no-scroll {
 }
 .section-tag {
   position: absolute;
-  bottom: 0;
+  bottom: 1rem;
   width: 100%;
   display: flex;
   align-items: center;
@@ -569,6 +569,17 @@ body {
   width: 0%;
   background-color: var(--accent);
 }
+
+
+@media (min-height:1000px) {
+    .dev-photo img {
+  z-index: 0;
+  height: clamp(90vh,50vw,51vw);
+}
+
+}
+
+
 @media (max-width:1110px) {
 #buttons button {
   width: clamp(6rem,8.3rem,13rem);
