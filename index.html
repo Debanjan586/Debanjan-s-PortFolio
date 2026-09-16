@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="skills-section/style.css" />
     <link rel="stylesheet" href="about-section/about.css" />
     <link rel="stylesheet" href="music-control.css" />
+    <link rel="stylesheet" href="marquees/style.css" />
   </head>
   <body>
     <div id="top-scroll-progress">
@@ -95,7 +96,8 @@
             <div class="eyebrow">Hi There , I'm</div>
             <div id="buttons">
               <button class="btn-primary">Get in Touch</button>
-              <button class="btn-secondary">View Resume</button>
+<button onclick="window.location.href='resume.html'"  class="btn-secondary">View Resume</button>  <!--     -->
+
             </div>
             <h1 id="main-text">Debanjan</h1>
             <div class="dev-photo">
@@ -115,12 +117,22 @@
                 <h3>Responsive & Fast</h3>
               </div>
             </div>
-                          <div class="section-tag">
+                          <!-- <div class="section-tag">
                 <p>Web Apps & Business Solutions</p>
-              </div>
+              </div> -->
           </div>
       </div>
       
+      <!-- Marquee ribbons — content injected by marquee.js from marquee-data.json -->
+      <div class="marquee-section" aria-hidden="true">
+        <div class="marquee-ribbon marquee-ribbon--top">
+          <div class="marquee-track" id="marquee-track-top"></div>
+        </div>
+        <div class="marquee-ribbon marquee-ribbon--bottom">
+          <div class="marquee-track" id="marquee-track-bottom"></div>
+        </div>
+      </div>
+
       <div id="skills">
         <h2 class="heading">
           Tools I used to build the <br />
@@ -155,5 +167,6 @@
     <script src="skills-section/script.js"></script>
     <script src="about-section/about.js"></script>
     <script src="music-control.js"></script>
+    <script src="marquees/script.js"></script>
   </body>
 </html>

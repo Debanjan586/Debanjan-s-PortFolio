@@ -34,6 +34,15 @@
                               exactly where it was the instant the
                               menu opened, and normal logic resumes
                               the moment it closes.
+   5. Nav background fade  — nav starts fully transparent. Past a
+                              small scroll threshold (roughly two
+                              wheel notches / a slight swipe), the
+                              background color fades in smoothly
+                              via .nav--scrolled; scrolling back up
+                              past that same threshold fades it
+                              back out. Fully independent of the
+                              hero-aware visibility state — both
+                              classes can be active at once.
    ══════════════════════════════════════════════════════════════ */
 
 (function () {
@@ -271,11 +280,28 @@
     isHeroInView = false;
   }
 
+  // ── Nav background fade ──────────────────────────────────────
+  // Independent of the hero-aware visibility state above: the nav
+  // starts fully transparent, and once the page has scrolled past
+  // a small threshold (roughly two mouse-wheel notches / a slight
+  // swipe), .nav--scrolled fades the background color in over the
+  // 0.4s transition defined in CSS. Scrolling back up past that
+  // same threshold fades it back out. This runs alongside
+  // applyPositionState() in the same scroll callback below, so no
+  // extra scroll listener is added.
+  var NAV_BG_THRESHOLD = 160; // px
+
+  function updateNavBackground() {
+    var scrollY = window.scrollY || document.documentElement.scrollTop;
+    nav.classList.toggle("nav--scrolled", scrollY > NAV_BG_THRESHOLD);
+  }
+
   var scrollTicking = false;
   function onScroll() {
     if (!scrollTicking) {
       window.requestAnimationFrame(function () {
         applyPositionState();
+        updateNavBackground();
         scrollTicking = false;
       });
       scrollTicking = true;
@@ -286,6 +312,7 @@
 
   // Initial state on load.
   applyPositionState();
+  updateNavBackground();
 
   /* ══════════════════════════════════════════════════════════
      4. HAMBURGER + OVERLAY

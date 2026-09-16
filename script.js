@@ -13,8 +13,8 @@ let devPhoto   = document.querySelector(".dev-photo");
 let sectionTag = document.querySelector(".section-tag");
 
 // ── Initial states ────────────────────────────────────────────
-gsap.set(eyebrow,    { opacity: 0, y: 20 });
-gsap.set(buttons,    { opacity: 0, y: 20 });
+gsap.set(eyebrow,    { opacity: 0, x: -200 });
+gsap.set(buttons,    { opacity: 0, x: 100 });
 gsap.set(h1,         { opacity: 0, y: 40 });
 gsap.set(skills,     { opacity: 0, x: 200 });
 gsap.set(devPhoto,   { opacity: 0 });
@@ -188,13 +188,11 @@ window.revealHero = function () {
   const tl = gsap.timeline();
 
   // 1 — eyebrow
-  tl.to(eyebrow, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" });
-
-  // 2 — buttons
-  tl.to(buttons, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" });
+  tl.to(eyebrow,     { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" });
+  tl.to(buttons, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, "<");
 
   // 3 — dev photo fades in
-  tl.to(devPhoto, { opacity: 1, duration: 1.0, ease: "power2.inOut" });
+  tl.to(devPhoto, { opacity: 1, duration: 0.6, ease: "power2.inOut" });
 
   // 4 — h1 + skills simultaneously
   tl.to(h1,     { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" });
