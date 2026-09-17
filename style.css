@@ -47,6 +47,7 @@ body {
 main {
   height: auto;
   background-color: var(--primary);
+  overflow: hidden;
 }
 #mobile-nav {
   display: none;
