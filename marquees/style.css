@@ -1,9 +1,7 @@
-
-
 :root {
   --primary: #08090c;
   --secondary: #15171c;
---accent: rgb(73, 60, 159);
+--accent: rgb(67, 48, 193);
   --ui: #f2f3f5;
   --deep-blue: #0f1723;
 
@@ -18,7 +16,30 @@
 
 
 
+/* ============================================================
+   MARQUEE — pure CSS loop, always fills the screen, no resize
+   handling needed at all.
 
+   Structure per ribbon:
+     .marquee-track
+       .marquee-half   (tags repeated MARQUEE_REPEATS times)
+       .marquee-half   (identical copy, aria-hidden)
+
+   The track is animated by a single CSS keyframe animation that
+   moves it exactly -50% of its own width, forever, linearly. Since
+   both halves are identical, the instant the first half has fully
+   scrolled past, the second half is sitting in exactly the position
+   the first one started in — a perfectly seamless loop with no
+   JavaScript measuring, no resize listener, and nothing that can
+   desync, because a plain CSS animation is entirely handled by the
+   browser's own compositor and rendering pipeline at any size.
+
+   Each half repeats the tag list MARQUEE_REPEATS times (see
+   script.js) so the total track content is comfortably wider than
+   any realistic viewport, at any zoom level — the marquee will
+   always visually fill the screen edge to edge with no empty gap,
+   without ever needing to know the screen's actual width.
+   ============================================================ */
 
 .marquee-section {
   position: relative;
@@ -34,20 +55,28 @@
   display: flex;
   align-items: center;
   overflow: hidden;
+
   -webkit-mask-image: linear-gradient(
-    90deg, transparent 0%, black 3%, black 97%, transparent 100%
+    90deg,
+    transparent 0%,
+    black 6%,
+    black 94%,
+    transparent 100%
   );
   mask-image: linear-gradient(
-    90deg, transparent 0%, black 3%, black 97%, transparent 100%
+    90deg,
+    transparent 0%,
+    black 6%,
+    black 94%,
+    transparent 100%
   );
 }
 
 .marquee-ribbon--top {
-  height: clamp(2rem, 7vw, 3rem);
+  height: clamp(2rem, 7vw, 4rem);
   background-color: var(--accent);
   color: #ffffff;
-  /* shift crossing point ~15% left of center */
-  transform: translate(-65%, -70%) rotate(2deg);
+  transform: translate(-55%, -70%) rotate(2deg);
   z-index: 2;
 }
 
@@ -64,24 +93,56 @@
     #ffffff0c 100%
   );
   color: black;
-  /* same shift so they still cross each other */
-  transform: translate(-65%, -40%) rotate(-3deg);
+  transform: translate(-55%, -120%) rotate(-3deg);
   z-index: 1;
 }
 
 /* ── Track ───────────────────────────────────────────────── */
+/* Pure CSS animation — this is the ONLY thing driving motion.
+   No JS ever touches this element's transform, so there is
+   nothing for a resize/reflow to conflict with. */
 .marquee-track {
   display: flex;
   width: max-content;
   flex-shrink: 0;
-  animation-name: var(--marquee-anim, marquee-left);
-  animation-duration: var(--marquee-duration, 34s);
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
   will-change: transform;
 }
 
-/* ── Inner strip ─────────────────────────────────────────── */
+.marquee-track--left {
+  animation: marquee-scroll-left 490s linear infinite;
+}
+
+.marquee-track--right {
+  animation: marquee-scroll-right 360s linear infinite;
+}
+
+@keyframes marquee-scroll-left {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    /* Moves by exactly one half's width. Since both halves are
+       identical, this is a perfect, gapless loop point. */
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes marquee-scroll-right {
+  from {
+    transform: translate3d(-50%, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* ── Half (one full repeated-tag-list block) ────────────────── */
+.marquee-half {
+  display: flex;
+  flex-shrink: 0;
+}
+
+/* ── Inner strip (one pass of the tag list within a half) ───── */
 .marquee-inner {
   display: flex;
   align-items: center;
@@ -108,29 +169,9 @@
   line-height: 1;
 }
 
-/* ── Keyframes ───────────────────────────────────────────── */
-@keyframes marquee-left {
-  0% {
-    transform: translateX(0);
-  }
-
-  100% {
-    transform: translateX(-50%);
-  }
-}
-
-@keyframes marquee-right {
-  0% {
-    transform: translateX(-50%);
-  }
-
-  100% {
-    transform: translateX(0);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .marquee-track {
+  .marquee-track--left,
+  .marquee-track--right {
     animation: none;
   }
 }

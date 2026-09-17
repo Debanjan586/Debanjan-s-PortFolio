@@ -1,22 +1,19 @@
 // ============================================================
-// PERFECT SEAMLESS MARQUEE — 3-SET LOOP
+// SIMPLE MARQUEE — NO RESIZE LOGIC, NO MEASURING, NO JS TIMING
 // ============================================================
 //
-// THREE identical sets: SET A | SET B | SET C
+// The old approach measured pixel widths in JS and re-timed a
+// WAAPI animation whenever the window resized. That's the whole
+// class of problem removed here: this version renders the tags
+// enough times to comfortably overflow any real screen width,
+// and hands ALL motion to a single, fixed-duration CSS animation
+// that moves the track by -50% of its own total width forever.
 //
-// The animation moves exactly one SET width (A's width).
-// Because B immediately follows A, and C follows B, the
-// track always has enough "runway" behind the visible area —
-// even if a resize, font swap, or sub-pixel rounding happens
-// mid-animation, there's a full extra set as buffer so you
-// never see a gap or a snap.
-//
-// No CSS keyframes, no percentage-based transforms — everything
-// is measured in real pixels via the Web Animations API, so the
-// loop point is always mathematically exact for the current
-// rendered width.
+// Since it's a plain CSS keyframe animation (not JS-driven), the
+// browser keeps it perfectly smooth through any resize, zoom, or
+// fullscreen change on its own — there is nothing to recalculate,
+// nothing to listen for, and nothing that can desync or jump.
 // ============================================================
-
 
 const MARQUEE_DATA = [
   {
@@ -49,160 +46,74 @@ const MARQUEE_DATA = [
 
 const MARQUEE_SEPARATOR = "✦";
 
-// Speed in pixels per second. Higher = faster.
-const MARQUEE_SPEED = 25;
+// How many times to repeat the full tag list per half of the
+// track. Two halves (each repeated this many times) sit back to
+// back so the track can loop at exactly -50%. A high repeat count
+// guarantees the content is always wider than any realistic
+// screen, at any zoom level, without ever measuring anything in JS.
+const MARQUEE_REPEATS = 6;
 
-// How many identical sets to render per ribbon.
-// 3 is the sweet spot: guarantees no visible gap even under
-// resize/font-swap jitter, without tripling DOM cost like 4+ would.
-const MARQUEE_SET_COUNT = 3;
 
-
-// ============================================================
-// CREATE ONE SET
-// ============================================================
-
-function createMarqueeSet(tags, hidden) {
-  const set = document.createElement("div");
-  set.className = "marquee-inner";
+function buildTagGroup(tags, hidden) {
+  const group = document.createElement("div");
+  group.className = "marquee-inner";
 
   if (hidden) {
-    set.setAttribute("aria-hidden", "true");
+    group.setAttribute("aria-hidden", "true");
   }
 
   tags.forEach(function (tag) {
     const tagElement = document.createElement("span");
     tagElement.className = "marquee-tag";
     tagElement.textContent = tag;
-    set.appendChild(tagElement);
+    group.appendChild(tagElement);
 
-    const separatorElement = document.createElement("span");
-    separatorElement.className = "marquee-sep";
-    separatorElement.setAttribute("aria-hidden", "true");
-    separatorElement.textContent = MARQUEE_SEPARATOR;
-    set.appendChild(separatorElement);
+    const sep = document.createElement("span");
+    sep.className = "marquee-sep";
+    sep.setAttribute("aria-hidden", "true");
+    sep.textContent = MARQUEE_SEPARATOR;
+    group.appendChild(sep);
   });
 
-  return set;
+  return group;
 }
 
-
-// ============================================================
-// INITIALIZE ONE RIBBON
-// ============================================================
+function buildHalf(tags, hidden) {
+  // One "half" of the track: the tag list repeated MARQUEE_REPEATS
+  // times back to back, wrapped in a single element. Two of these
+  // halves (identical content) placed side by side let the track
+  // loop seamlessly at exactly -50% with zero gap or measurement.
+  const half = document.createElement("div");
+  half.className = "marquee-half";
+  if (hidden) {
+    half.setAttribute("aria-hidden", "true");
+  }
+  for (let i = 0; i < MARQUEE_REPEATS; i++) {
+    half.appendChild(buildTagGroup(tags, hidden || i !== 0));
+  }
+  return half;
+}
 
 function initializeMarquee(ribbon) {
   const track = document.getElementById("marquee-track-" + ribbon.id);
-
   if (!track) {
     return;
   }
 
-  // Remove previous content + any leftover animation.
   track.replaceChildren();
-  track.style.animation = "none";
-  track.style.animationName = "none";
+  track.classList.add(
+    "marquee-track--" + (ribbon.direction === "right" ? "right" : "left")
+  );
 
-  if (track._marqueeAnimation) {
-    track._marqueeAnimation.cancel();
-    track._marqueeAnimation = null;
-  }
-
-  // Build N identical sets. Only the first is visible to
-  // screen readers; the rest are aria-hidden duplicates.
-  const sets = [];
-  for (let i = 0; i < MARQUEE_SET_COUNT; i++) {
-    const set = createMarqueeSet(ribbon.tags, i !== 0);
-    track.appendChild(set);
-    sets.push(set);
-  }
-
-  // Wait for fonts AND layout to settle before measuring.
-  // This is the fix for the "jump after a second" bug: if you
-  // measure before the custom font finishes loading, the text
-  // reflows to a different width right after the animation
-  // starts, causing a visible snap. document.fonts.ready
-  // resolves only once all @font-face fonts are fully loaded.
-  const waitForFonts =
-    document.fonts && document.fonts.ready
-      ? document.fonts.ready
-      : Promise.resolve();
-
-  waitForFonts.then(function () {
-    // Double rAF: one to let any font-triggered reflow commit,
-    // one more to read the final, stable layout.
-    requestAnimationFrame(function () {
-      requestAnimationFrame(function () {
-        startMarquee(track, sets[0], ribbon.direction);
-      });
-    });
-  });
+  // Two identical halves back to back — the CSS animation moves
+  // by exactly -50%, so the moment half A scrolls fully out, half
+  // B is already sitting in the exact same spot half A started in.
+  track.appendChild(buildHalf(ribbon.tags, false));
+  track.appendChild(buildHalf(ribbon.tags, true));
 }
-
-
-// ============================================================
-// START MARQUEE
-// ============================================================
-
-function startMarquee(track, setA, direction) {
-  // Measure ONLY the first set — that's the exact distance
-  // needed for one full, seamless loop cycle.
-  const distance = setA.getBoundingClientRect().width;
-
-  if (!distance || distance <= 0) {
-    return;
-  }
-
-  const duration = (distance / MARQUEE_SPEED) * 1000;
-
-  if (track._marqueeAnimation) {
-    track._marqueeAnimation.cancel();
-  }
-
-  if (direction === "left") {
-    track.style.transform = "translate3d(0, 0, 0)";
-
-    track._marqueeAnimation = track.animate(
-      [
-        { transform: "translate3d(0, 0, 0)" },
-        { transform: "translate3d(-" + distance + "px, 0, 0)" }
-      ],
-      {
-        duration: duration,
-        iterations: Infinity,
-        easing: "linear"
-      }
-    );
-
-    return;
-  }
-
-  if (direction === "right") {
-    track.style.transform = "translate3d(-" + distance + "px, 0, 0)";
-
-    track._marqueeAnimation = track.animate(
-      [
-        { transform: "translate3d(-" + distance + "px, 0, 0)" },
-        { transform: "translate3d(0, 0, 0)" }
-      ],
-      {
-        duration: duration,
-        iterations: Infinity,
-        easing: "linear"
-      }
-    );
-  }
-}
-
-
-// ============================================================
-// INITIALIZE ALL RIBBONS
-// ============================================================
 
 function initializeAllMarquees() {
-  MARQUEE_DATA.forEach(function (ribbon) {
-    initializeMarquee(ribbon);
-  });
+  MARQUEE_DATA.forEach(initializeMarquee);
 }
 
 if (document.readyState === "loading") {
@@ -211,16 +122,5 @@ if (document.readyState === "loading") {
   initializeAllMarquees();
 }
 
-
-// ============================================================
-// HANDLE RESPONSIVE WIDTH CHANGES
-// ============================================================
-
-let marqueeResizeTimer;
-
-window.addEventListener("resize", function () {
-  clearTimeout(marqueeResizeTimer);
-  marqueeResizeTimer = setTimeout(function () {
-    initializeAllMarquees();
-  }, 150);
-});
+// No resize listener. No width measuring. No re-timing. The CSS
+// animation in style.css handles looping entirely on its own.
